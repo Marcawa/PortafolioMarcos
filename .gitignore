@@ -1,0 +1,21 @@
+# Ignorar todo por defecto? No, mejor ignoramos lo que NO quieres subir:
+
+# 1. Carpeta de curso y todo su contenido
+CursoHTML&CSS/
+
+# 2. Carpeta de sistema judicial
+SistemaJudicial/
+
+# 3. Archivos específicos dentro de css/ que NO quieres subir
+css/indexxxx.css
+css/prueba.css
+
+# 4. Archivos sueltos en la raíz que NO quieres subir
+4Fondonegroensobremi.PNG
+Gemini_Generated_Image_3zyn*.png
+indexxxx.html
+Paginas.docx
+PColeres.png
+PLogo1.png
+PLogo2.png
+Prueba.html

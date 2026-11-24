@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Marcos Romero | Portafolio</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
+    <body>
+
+        <header class="main-header">
+            <nav class="navbar">
+                <div class="nav-logo">
+                    <a href="#hero">
+                        <img src="img/Logo.png" alt="Logo Marcos Romero">
+                    </a>
+                </div>
+
+                <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#hero" class="nav-link active">🏠 Inicio</a></li>
+                    <li><a href="#sistema" class="nav-link">⚙️ Guía de los Sistemas<span class="temporal-color">(Próximamente)</span></a></li>
+                    
+                    <li class="dropdown">
+                        <a href="#proyectos" class="nav-link dropdown-toggle">
+                            💼 Proyectos <i class="fas fa-chevron-down text-small"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#judicial" class="dropdown-item">⚖️ Sistema Judicial</a></li>
+                            <li><a href="https://marcawa.github.io/NexoMarcosRomero/" class="dropdown-item">🛒 E-commerce</a></li>
+                            <li><a href="#hospital" class="dropdown-item">🏥 Hospital</a></li>
+                            <li><a href="#aerolinea" class="dropdown-item">✈️ Aerolínea</a></li>
+                            <li><a href="#hoteleria" class="dropdown-item">🏨 Hotelería</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#contacto" class="nav-link">📬 Contactarme</a></li>
+
+                    <li id="nav-action-mobile">
+                        <a href="https://wa.me/0987356722" target="_blank" class="btn-nav">
+                            <i class="fab fa-whatsapp"></i> Contactarme
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-actions" id="navActions">
+                    <a href="https://wa.me/0987356722" target="_blank" class="btn-nav">
+                        <i class="fab fa-whatsapp"></i> Contactarme
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <div class="header-spacer"></div>
+
+        <main>
+            <section id="hero" class="hero-section">
+                <!-- 🎯 CONTENEDOR SECUENCIAL DE TÍTULOS (Escritorio: Fila superior horizontal / Móvil: Absoluto alrededor del avatar) -->
+                <div class="hero-cards-wrapper">
+                    <a href="#educacion" class="hero-card color-white" title="Ir a Educación - Bachiller">
+                        <div class="hero-card-frame muesca-br">
+                            <span class="hero-card-title">Bachiller en Ciencias</span>
+                        </div>
+                    </a>
+
+                    <a href="#educacion" class="hero-card color-green" title="Ir a Educación - Software">
+                        <div class="hero-card-frame muesca-bl">
+                            <span class="hero-card-title">Tecnólogo Superior en Desarrollo de Software</span>
+                        </div>
+                    </a>
+
+                    <a href="#educacion" class="hero-card color-cyan" title="Ir a Educación - Redes y Telecomunicaciones">
+                        <div class="hero-card-frame muesca-tr">
+                            <span class="hero-card-title">Tecnólogo Universitario en Gestión de Redes y Telecomunicaciones</span>
+                        </div>
+                    </a>
+
+                    <!-- Futura Maestría: Cuando la curses, solo borra los comentarios de apertura y cierre -->
+                    <!--
+                    <a href="#educacion" class="hero-card color-magenta" title="Ir a Educación - Magíster">
+                        <div class="hero-card-frame muesca-tl">
+                            <span class="hero-card-title">Magister Tecnológico en Desarrollo e Innovación Digital en los Negocios</span>
+                        </div>
+                    </a>
+                    -->
+                </div>
+
+                <div class="hero-container">
+                    
+                    <div class="hero-avatar-box">
+                        <div class="avatar-wrapper">
+                            <img src="img/Marc.jpg" alt="Marcos Romero" class="hero-avatar">
+                        </div>
+                    </div>
+
+                    <div class="hero-content-box">
+                        <span class="hero-welcome">👋 ¡Hola! Mi nombre es</span>
+                        <h1 class="hero-name">Marcos Romero</h1>
+                        <h2 class="hero-title">Tecnólogo Superior en Desarrollo de Software</h2>
+                        
+                        <p class="hero-description">
+                            “Transformo ideas en soluciones digitales mediante código limpio y diseño funcional.”
+                        </p>
+
+                        <div class="hero-actions">
+                            <a href="#proyectos" class="btn-hero-primary">
+                                <i class="fas fa-briefcase"></i> Ver Proyectos
+                            </a>
+                            <a href="#footer" class="btn-hero-secondary">
+                                <i class="fas fa-envelope"></i> Contactarme
+                            </a>
+                        </div>
+
+                        <div class="hero-quick-contact">
+                            <a href="https://wa.me/0987356722" target="_blank" class="contact-item" title="Llamar o WhatsApp">
+                                <i class="fab fa-whatsapp"></i> <span>0987356722</span>
+                            </a>
+                            <a href="https://github.com/Marcawa" target="_blank" class="contact-item" title="Perfil de GitHub">
+                                <i class="fab fa-github"></i> <span>Marcawa</span>
+                            </a>
+                            <a href="mailto:marcosandres356@gmail.com" class="contact-item" title="Enviar Correo Electrónico">
+                                <i class="fas fa-envelope"></i> <span>marcosandres356@gmail.com</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/marcos-romero-ch%C3%A1vez-7a918a325/" target="_blank" class="contact-item" title="Perfil de LinkedIn (Próximamente)">
+                                <i class="fab fa-linkedin"></i> <span>LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+                <div class="columna">
+                    <section id="sobre-mi" class="bento-item area-sobre-mi">
+                        <div class="about-content">
+                            <h2 class="section-title">Sobre Mí</h2>
+                            <p class="about-text">
+                                Soy un desarrollador de software en constante aprendizaje, 
+                                con conocimientos en programación, análisis de datos y diseño de sistemas. 
+                                Me apasiona crear soluciones prácticas que optimicen procesos y mejoren la experiencia del usuario.
+                            </p>
+                            <p class="about-text">
+                                Me adapto fácilmente a nuevos entornos y tecnologías, 
+                                y disfruto trabajar en equipo para alcanzar metas comunes.
+                            </p>
+                        </div>
+
+                        <div class="about-quote-box">
+                            <div class="quote-terminal">
+                                <span class="terminal-dots"></span>
+                                <p class="quote-text">“Cada línea de código es una oportunidad para innovar.”</p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section id="proyectos" class="bento-item area-proyectos"> 
+                        <div class="projects-header">
+                            <h2 class="section-title">Proyectos</h2>
+                        </div>
+
+                        <div class="projects-subgrid">
+                            
+                            <article class="project-card">
+                                <a href="#" class="project-card-link">
+                                    <div class="project-card-top">
+                                        <div class="project-icon-box card-cyan">
+                                            <i class="fas fa-balance-scale"></i>
+                                        </div>
+                                        <div class="project-info">
+                                            <h3>Sistema Judicial <span class="temporal-color">(Próximamente)</span></h3>
+                                            <p>Plataforma integral para la gestión, control y seguimiento de procesos legales y casos jurídicos en tiempo real.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-card-bottom">
+                                        <div class="project-tech-badges">
+                                            <span class="tech-tag">.NET</span>
+                                            <span class="tech-tag">C#</span>
+                                            <span class="tech-tag">SQL Server</span>
+                                        </div>
+                                        <div class="project-btn">
+                                            <span>Ver Proyecto</span>
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+
+                            <article class="project-card pulse-button-effect">
+                                <a href="https://marcawa.github.io/NexoMarcosRomero/" class="project-card-link has-watermark bg-ecommerce">
+                                    <div class="project-card-top">
+                                        <div class="project-icon-box card-green">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </div>
+                                        <div class="project-info">
+                                            <h3>E-commerce</h3>
+                                            <p>Desarrollé el frontend de una plataforma web enfocada en el intercambio (trueque) de objetos de valor o coleccionables tipo E-commerce.</p>
+                                            <!--<p>Tienda en línea con arquitectura limpia, catálogo dinámico, carrito de compras avanzado y pasarela de pagos.</p>-->
+                                        </div>
+                                    </div>
+                                    <div class="project-card-bottom">
+                                        <div class="project-tech-badges">
+                                            <span class="tech-tag">ASP.NET</span>
+                                            <span class="tech-tag">MVC</span>
+                                            <span class="tech-tag">JavaScript</span>
+                                        </div>
+                                        <div class="project-btn">
+                                            <span>Ver Proyecto</span>
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+
+                            <article class="project-card">
+                                <a href="#" class="project-card-link">
+                                    <div class="project-card-top">
+                                        <div class="project-icon-box card-magenta">
+                                            <i class="fas fa-hospital-user"></i>
+                                        </div>
+                                        <div class="project-info">
+                                            <h3>Hospital .NET <span class="temporal-color">(Próximamente)</span></h3>
+                                            <p>Sistema modular automatizado para el control estricto de citas médicas, pacientes, recetas e historiales clínicos.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-card-bottom">
+                                        <div class="project-tech-badges">
+                                            <span class="tech-tag">Web API</span>
+                                            <span class="tech-tag">C#</span>
+                                            <span class="tech-tag">Entity F.</span>
+                                        </div>
+                                        <div class="project-btn">
+                                            <span>Ver Proyecto</span>
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+
+                            <article class="project-card">
+                                <a href="#" class="project-card-link">
+                                    <div class="project-card-top">
+                                        <div class="project-icon-box card-cyan">
+                                            <i class="fas fa-plane"></i>
+                                        </div>
+                                        <div class="project-info">
+                                            <h3>Aerolínea <span class="temporal-color">(Próximamente)</span></h3>
+                                            <p>Módulo tecnológico de reserva de vuelos, pasajes, gestión de tripulación activa y asignación inteligente de asientos.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-card-bottom">
+                                        <div class="project-tech-badges">
+                                            <span class="tech-tag">.NET Core</span>
+                                            <span class="tech-tag">Bootstrap</span>
+                                            <span class="tech-tag">SQL</span>
+                                        </div>
+                                        <div class="project-btn">
+                                            <span>Ver Proyecto</span>
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+
+                            <article class="project-card">
+                                <a href="#" class="project-card-link">
+                                    <div class="project-card-top">
+                                        <div class="project-icon-box card-green">
+                                            <i class="fas fa-bed"></i>
+                                        </div>
+                                        <div class="project-info">
+                                            <h3>Hotelería <span class="temporal-color">(Próximamente)</span></h3>
+                                            <p>Software PMS hotelero optimizado para procesos de check-in, check-out rápido y administración analítica de habitaciones.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-card-bottom">
+                                        <div class="project-tech-badges">
+                                            <span class="tech-tag">C#</span>
+                                            <span class="tech-tag">Razor Pages</span>
+                                            <span class="tech-tag">CSS Grid</span>
+                                        </div>
+                                        <div class="project-btn">
+                                            <span>Ver Proyecto</span>
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+
+                        </div>
+                    </section>
+
+                    <section id="contacto" class="bento-item area-contacto">
+                        <h2 class="section-title">Contacto</h2>
+                        <p class="about-text">¿Tienes una propuesta o proyecto en mente? Estoy disponible para colaborar en nuevas ideas o desafíos tecnológicos.</p>
+                        
+                        <form action="https://api.web3forms.com/submit" method="POST" class="contacto-form">
+                            <input type="hidden" name="access_key" value="0d14791d-d81c-462e-8a2c-6093cbc34403">
+                            
+                            <input type="text" name="name" placeholder="Nombre" required>
+                            <input type="email" name="email" placeholder="Correo" required>
+                            <input type="text" name="subject" placeholder="Asunto" required>
+                            <textarea name="message" placeholder="Mensaje" rows="4" required></textarea>
+                            
+                            <button type="submit" class="btn-contacto-submit">Enviar mensaje</button>
+                        </form>
+
+                        <div class="contacto-social-links">
+                            <a href="https://wa.me/0987356722" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://github.com/Marcawa" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="mailto:mrandres192@gmail.com"><i class="fas fa-envelope"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="columna">
+                    <section id="habilidades" class="bento-item area-habilidades">
+                        <div class="skills-header">
+                            <h2 class="section-title">Habilidades</h2>
+                        </div>
+
+                        <div class="skills-container">
+                            <div class="skills-category" style="--accent-color: var(--clr-neon-green);">
+                                <h3>🧠 Lenguajes</h3>
+                                <div class="badges-grid">
+                                    <span class="skill-badge" data-level="Intermedio-Avanzado"><i class="fab fa-python"></i> Python</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fab fa-java"></i> Java</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-hashtag"></i> C#</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fab fa-android"></i> Kotlin</span>
+                                    <span class="skill-badge" data-level="Básico"><i class="fab fa-js"></i> JavaScript</span>
+                                    <span class="skill-badge" data-level="Básico"><i class="fab fa-js-square"></i> TypeScript</span>
+                                    <span class="skill-badge" data-level="Avanzado"><i class="fab fa-html5"></i> HTML</span>
+                                    <span class="skill-badge" data-level="Intermedio-Avanzado"><i class="fab fa-css3-alt"></i> CSS</span>
+                                    <span class="skill-badge" data-level="Intermedio-Avanzado"><i class="fas fa-database"></i> SQL</span>
+                                </div>
+                            </div>
+
+                            <div class="skills-category" style="--accent-color: var(--clr-cyan-tech);">
+                                <h3>🧩 Frameworks & Tools</h3>
+                                <div class="badges-grid">
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-network-wired"></i> ASP.NET Core</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-mobile-alt"></i> Flutter</span>
+                                    <span class="skill-badge" data-level="Básico"><i class="fab fa-angular"></i> Angular</span>
+                                    <span class="skill-badge" data-level="Básico"><i class="fab fa-bootstrap"></i> Bootstrap</span>
+                                    <span class="skill-badge" data-level="Avanzado"><i class="fab fa-git-alt"></i> Git</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fab fa-github"></i> GitHub</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-code-branch"></i> Sourcetree</span>
+                                </div>
+                            </div>
+
+                            <div class="skills-category" style="--accent-color: var(--clr-magenta-bold);">
+                                <h3>🗃️ Bases de Datos</h3>
+                                <div class="badges-grid">
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-server"></i> SQL Server</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-database"></i> MySQL</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-table"></i>PostgreSQL</span>
+                                </div>
+                            </div>
+
+                            <div class="skills-category" style="--accent-color: var(--clr-white);">
+                                <h3>💻 Entornos (IDEs)</h3>
+                                <div class="badges-grid">
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-laptop-code"></i> Visual Studio</span>
+                                    <span class="skill-badge" data-level="Intermedio-Avanzado"><i class="fas fa-code"></i> VS Code</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fab fa-android"></i> Android Studio</span>
+                                    <span class="skill-badge" data-level="Intermedio"><i class="fas fa-cube"></i> NetBeans</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="educacion" class="bento-item area-educacion">
+                        <h2 class="section-title">Educación</h2>
+                        
+                        <div class="education-timeline">
+
+                            <!-- NIVEL 2: Bachillerato -->
+                            <div class="timeline-level-group">
+                                <div class="timeline-level-label">Título de 2do Nivel</div>
+                                
+                                <article class="timeline-item" onclick="openModal('drive-bachillerato')">
+                                    <div class="timeline-marker">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="timeline-content pulse-button-effect has-watermark bg-tho">
+                                        <div class="timeline-badge-honor" onclick="event.stopPropagation(); openModal('drive-mencion-bachillerato')">
+                                            <i class="fas fa-award"></i> Mención de Honor
+                                        </div>
+                                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> 2016 – 2022</span>
+                                        <h3 class="timeline-title">
+                                            <span class="timeline-degree">Bachiller en Ciencias</span>
+                                            <span class="timeline-institution">Colegio Militar Teniente Hugo Ortiz</span>
+                                        </h3>
+                                        <p class="timeline-description">Educación con enfoque disciplinado, trabajo en equipo y liderazgo.</p>
+                                        <div class="timeline-status">
+                                            <span class="status-badge status-completed">
+                                                <span class="status-dot"></span> COMPLETADO
+                                            </span>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                
+                            </div>
+
+                            <!-- NIVEL 3: Tecnologías (Agrupadas bajo una sola etiqueta de nivel superior) -->
+                            <div class="timeline-level-group">
+                                <div class="timeline-level-label">Título de 3er Nivel</div>
+                                
+                                <!-- Ítem A: Desarrollo de Software -->
+                                <article class="timeline-item"  onclick="openModal('drive-software')">
+                                    <div class="timeline-marker">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <div class="timeline-content pulse-button-effect has-watermark bg-tes">
+                                        <div class="timeline-badge-honor" onclick="event.stopPropagation(); openModal('drive-mencion-software')">
+                                            <i class="fas fa-award"></i> Mención de Honor
+                                        </div>
+                                        <div class="timeline-badge-eude" onclick="event.stopPropagation(); openModal('drive-eude')">
+                                            <i class="fas fa-certificate"></i> Certificación Internacional EUDE
+                                        </div>
+                                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> 2023 - 2026</span>
+                                        <h3 class="timeline-title">
+                                            <span class="timeline-degree">Tecnología Superior en Desarrollo de Software</span>
+                                            <span class="timeline-institution">Tecnológico Universitario Espíritu Santo</span>
+                                        </h3>
+                                        <p class="timeline-description">Graduado</p>
+                                        <div class="timeline-status">
+                                            <span class="status-badge status-completed">
+                                                <span class="status-dot"></span> COMPLETADO
+                                            </span>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <!-- Ítem B: Redes y Telecomunicaciones (Comparte el mismo nivel 3 sin repetir la etiqueta) -->
+                                <article class="timeline-item" onclick="openModal('drive-redes')">
+                                    <div class="timeline-marker">
+                                        <i class="fas fa-network-wired"></i>
+                                    </div>
+                                    <div class="timeline-content has-watermark bg-tes">
+                                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> 2026 - Presente</span>
+                                        <h3 class="timeline-title">
+                                            <span class="timeline-degree">Tecnología Superior Universitaria en Gestión de Redes y Telecomunicaciones</span>
+                                            <span class="timeline-institution">Tecnológico Universitario Espíritu Santo</span>
+                                        </h3>
+                                        <p class="timeline-description">Próximo a Graduar</p>
+                                        <div class="timeline-status">
+                                            <span class="status-badge status-current">
+                                                <span class="status-dot"></span> EN CURSO
+                                            </span>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- Ítem 3: Seminario de Graduación 
+                            <article class="timeline-item">
+                                <div class="timeline-marker">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date"><i class="far fa-calendar-alt"></i> 2026</span>
+                                    <h3 class="timeline-title">
+                                        <span class="timeline-degree">Seminario de Titulación Internacional EUDE</span>
+                                        <span class="timeline-institution">Certificación en IA para los negocios</span>
+                                    </h3>
+                                    <p class="timeline-description">Enfoque Práctico</p>
+                                    <div class="timeline-status">
+                                        <span class="status-badge status-completed">
+                                            <span class="status-dot"></span> COMPLETADO
+                                        </span>
+                                    </div>
+                                </div>
+                            </article>-->
+
+                            <!-- NIVEL 4: Maestría 
+                            <div class="timeline-level-group">
+                                <div class="timeline-level-label">Título de 4to Nivel</div>
+                                
+                                <article class="timeline-item" onclick="openModal('drive-maestria')">
+                                    <div class="timeline-marker">
+                                        <i class="fas fa-user-graduate"></i>
+                                    </div>
+                                    <div class="timeline-content has-watermark bg-Mgtr">
+                                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> 2027 - Futuro</span>
+                                        <h3 class="timeline-title">
+                                            <span class="timeline-degree">Maestría Tecnológica en Desarrollo e Innovación Digital en los Negocios</span>
+                                            <span class="timeline-institution">Tecnológico Universitario Espíritu Santo</span>
+                                        </h3>
+                                        <p class="timeline-description">Próximo a Graduación</p>
+                                        <div class="timeline-status">
+                                            <span class="status-badge status-upcoming">
+                                                <span class="status-dot"></span> PRÓXIMAMENTE
+                                            </span>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>-->
+                            
+                        </div>
+                    </section>
+
+                    <section id="certificaciones" class="bento-item area-certificaciones">
+                        <h2 class="section-title">Certificaciones</h2>
+            
+                        <div class="certs-subgrid">
+                            <a href="https://drive.google.com/file/d/1bWOHB2dczmwD0FtXtu5WPVUYL5p3fxBM/preview" target="_blank" class="cert-card cert-1">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Fundamentos Estadísticos</h3>
+                                    <p class="cert-description">Análisis de datos y analítica de negocio.</p>
+                                    <span class="cert-id">Verificación: 1F43B5D9</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1yi5qO29iijQJSwEKJcuI4nIdB1Ow4Rgn/preview" target="_blank" class="cert-card cert-2">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Power BI Básico</h3>
+                                    <p class="cert-description">Visualización de datos y reportes esenciales.</p>
+                                    <span class="cert-id">Verificación: 728DE76C</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1q1avnGNDiLNoIiTYf81wHzQag6DiVwlR/preview" target="_blank" class="cert-card cert-3">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Programación en R</h3>
+                                    <p class="cert-description">Análisis estadístico y manipulación de estructuras de datos.</p>
+                                    <span class="cert-id">Verificación: AC10433A</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/14hKP-MsOaEbv0qrPx8O7-9fInaTkwqCg/preview" target="_blank" class="cert-card cert-4">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Microsoft Access Básico</h3>
+                                    <p class="cert-description">Gestión, diseño y estructuración de bases de datos relacionales.</p>
+                                    <span class="cert-id">Verificación: EF70C779</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1VqFRUCcwICM4jTm05hi6-5cGOzYEYHdQ/preview" target="_blank" class="cert-card cert-5">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Introducción al mundo de Google Cloud</h3>
+                                    <p class="cert-description">Conceptos de computación en la nube e infraestructura cloud.</p>
+                                    <span class="cert-id">Verificación: 99A53DFF</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1_hO_L18k088KsbIl1H7dHv5X-WfQuNzx/preview" target="_blank" class="cert-card cert-6">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Introducción a Python para Ciencia de Datos</h3>
+                                    <p class="cert-description">Análisis de datos, automatización y sintaxis esencial de Python.</p>
+                                    <span class="cert-id">Verificación: A47F5BB7</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1JROHRnIkItNUgV7GuY401GWmUDEG8tqS/preview" target="_blank" class="cert-card cert-7">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Power BI Intermedio-Avanzado</h3>
+                                    <p class="cert-description">Modelado DAX complejo, optimización y dashboards interactivos.</p>
+                                    <span class="cert-id">Verificación: BC6D2802</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1lscVZv5YSlQHjSTkV6xuHhIb7DfNlRMT/preview" target="_blank" class="cert-card cert-8">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">SQL Para Principiantes</h3>
+                                    <p class="cert-description">Consultas, filtrados, uniones y manipulación de datos en SQL.</p>
+                                    <span class="cert-id">Verificación: 077CEFF6</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1PRU89WGdtWotuNgKLUI1_SLHfph3QB8L/preview" target="_blank" class="cert-card cert-9">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Big Data Fundamentals</h3>
+                                    <p class="cert-description">Principios de procesamiento masivo y las 5 V's del Big Data.</p>
+                                    <span class="cert-id">Verificación: 269A36CB</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1tUi4lRKGIYYONa4nVXlwf2zSW0nnUCap/preview" target="_blank" class="cert-card cert-10">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Business Analytics en Big Data</h3>
+                                    <p class="cert-description">Toma de decisiones analíticas aplicadas a entornos masivos.</p>
+                                    <span class="cert-id">Verificación: 40D81E76</span>
+                                </div>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1vsSTw3_D9U0I-H2VChtFm8NAwdDhz_dW/preview" target="_blank" class="cert-card cert-11">
+                                <div class="cert-overlay"></div>
+                                <div class="cert-content">
+                                    <h3 class="cert-name">Power Query y Power Pivot</h3>
+                                    <p class="cert-description">ETL avanzado, modelado de datos y limpieza estructurada.</p>
+                                    <span class="cert-id">Verificación: 25AAFA43</span>
+                                </div>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div id="footer" class="footer-container">
+                <div class="footer-block footer-identity">
+                    <div class="footer-avatar-wrapper">
+                        <img src="img/Marc.jpg" alt="Marcos Romero" class="footer-avatar">
+                    </div>
+                    <div class="footer-text">
+                        <h3>Marcos Romero</h3>
+                        <p class="footer-title">Desarrollador de Software</p>
+                        <p class="footer-quote">“Transformando ideas en soluciones tecnológicas.”</p>
+                    </div>
+                </div>
+
+                <div class="footer-block">
+                    <ul class="footer-links">
+                        <li><a href="mailto:marcosandres356@gmail.com"><i class="fas fa-envelope"></i>marcosandres356@gmail.com</a></li>
+                        <li><a href="https://wa.me/0987356722"><i class="fas fa-phone"></i> 0987356722</a></li>
+                        <li><a href="https://github.com/Marcawa" target="_blank"><i class="fab fa-github"></i> GitHub: Marcawa</a></li>
+                        <li><a href="https://www.linkedin.com/in/marcos-romero-ch%C3%A1vez-7a918a325/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn: Marcos Romero</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subfooter">
+                <p>&copy; 2025 Marcos Romero — Todos los derechos reservados.</p>
+                <p>Desarrollado con <i class="fas fa-code" style="color: var(--clr-magenta-bold);"></i> pasión y dedicación.</p>
+                <img src="img/Logo.png" alt="Logo" class="footer-bottom-logo">
+            </div>
+        </footer>
+
+        <!-- ==========================================================================
+            MODAL MAESTRO REUTILIZABLE (Único para todo el portafolio)
+        ========================================================================== -->
+        <div id="universalModal" class="modal-overlay" onclick="closeModal()">
+            <div class="modal-container" onclick="event.stopPropagation()">
+                <!-- Botón de Cierre -->
+                <button class="modal-close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <!-- Cabecera opcional para títulos dinámicos -->
+                <div class="modal-header">
+                    <h3 id="modalTitle">Visualización de Credencial</h3>
+                </div>
+
+                <!-- Contenedor del documento (Google Drive / PDF / Imagen) -->
+                <div class="modal-body">
+                    <iframe id="modalDriveFrame" src="" width="100%" height="450px" style="border:none;" allowfullscreen></iframe>
+                </div>
+
+                <!-- Pie de página con botón de acción externo (Opcional) -->
+                <div class="modal-footer">
+                    <a id="modalDriveLink" href="" target="_blank" class="modal-external-btn">
+                        <i class="fas fa-external-link-alt"></i> Ver en Google Drive
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('nav-menu_visible');
+                
+                const icon = navToggle.querySelector('i');
+                if (navMenu.classList.contains('nav-menu_visible')) {
+                    icon.className = 'fas fa-times';
+                } else {
+                    icon.className = 'fas fa-bars';
+                }
+            });
+
+            document.querySelectorAll('.nav-link, .dropdown-item, .btn-nav').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('nav-menu_visible');
+                    navToggle.querySelector('i').className = 'fas fa-bars';
+                });
+            });
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const categories = document.querySelectorAll('.skills-category');
+
+                categories.forEach(category => {
+                    const badges = category.querySelectorAll('.skill-badge');
+                    if (badges.length === 0) return;
+
+                    let currentIndex = 0;
+                    let scanInterval = null;
+                    let isHovered = false; 
+                    
+                    // ⏱️ VELOCIDAD CALIBRADA: 1200ms (1.2 segundos) para un recorrido fluido y elegante
+                    const speed = 1600; 
+
+                    function runScan() {
+                        if (isHovered) return;
+
+                        badges.forEach(badge => badge.classList.remove('active-scan'));
+
+                        if (currentIndex >= badges.length) {
+                            currentIndex = 0;
+                        }
+
+                        badges[currentIndex].classList.add('active-scan');
+                        currentIndex++;
+                    }
+
+                    function startScan() {
+                        clearInterval(scanInterval);
+                        scanInterval = setInterval(runScan, speed);
+                    }
+
+                    function stopScan() {
+                        clearInterval(scanInterval);
+                        badges.forEach(badge => badge.classList.remove('active-scan'));
+                    }
+
+                    badges.forEach(badge => {
+                        badge.addEventListener('mouseenter', () => {
+                            isHovered = true; 
+                            stopScan(); 
+                        });
+
+                        badge.addEventListener('mouseleave', () => {
+                            isHovered = false;
+                            startScan(); 
+                        });
+                    });
+
+                    startScan();
+                });
+            });
+        </script>
+
+        <script>
+            /* ==========================================================================
+            CONTROLADOR DE MODAL ÚNICO Y REUTILIZABLE
+            ========================================================================== */
+
+            // Base de datos simulada o mapeo de enlaces de Google Drive orientada a escalabilidad
+            const driveDocuments = {
+                'drive-bachillerato': {
+                    title: 'Título de Bachiller en Ciencias',
+                    url: 'https://drive.google.com/file/d/1ZJFYbAFkmsGu4hT1QxaxC2uL6NkcEhX9/preview' // Reemplaza con tu link de inserción de Drive
+                },
+                'drive-mencion-bachillerato': {
+                    title: 'Certificado de Mención de Honor - Bachillerato',
+                    url: 'https://drive.google.com/file/d/TU_ID_DE_DRIVE_AQUÍ/preview'
+                },
+                'drive-software': {
+                    title: 'Título de Tecnólogo Superior en Desarrollo de Software',
+                    url: 'https://drive.google.com/file/d/16X_9WdHJ6bwEHc9QatE6IpBTQiQfrE71/preview'
+                },
+                'drive-mencion-software': {
+                    title: 'Certificado de Mención de Honor - Software',
+                    url: 'https://drive.google.com/file/d/TU_ID_DE_DRIVE_AQUÍ/preview'
+                },
+                'drive-eude': {
+                    title: 'Certificación Internacional EUDE',
+                    url: 'https://drive.google.com/file/d/TU_ID_DE_DRIVE_AQUÍ/preview'
+                },
+                'drive-redes': {
+                    title: 'Gestión de Redes y Telecomunicaciones (En curso)',
+                    url: 'https://drive.google.com/file/d/TU_ID_DE_DRIVE_AQUÍ/preview'
+                },
+                'drive-maestria': {
+                    title: 'Maestría Tecnológica (Próximamente)',
+                    url: 'https://drive.google.com/file/d/TU_ID_DE_DRIVE_AQUÍ/preview'
+                }
+            };
+
+            function openModal(docKey) {
+                const modal = document.getElementById('universalModal');
+                const iframe = document.getElementById('modalDriveFrame');
+                const titleElem = document.getElementById('modalTitle');
+                const externalLink = document.getElementById('modalDriveLink');
+
+                const docData = driveDocuments[docKey];
+
+                if (docData) {
+                    titleElem.textContent = docData.title;
+                    iframe.src = docData.url;
+                    externalLink.href = docData.url.replace('/preview', '/view'); // Enlace directo para abrir en pestaña nueva si lo desean
+                    
+                    modal.classList.add('active'); // Clase CSS para mostrar con animación
+                    document.body.style.overflow = 'hidden'; // Evita el scroll del fondo
+                }
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('universalModal');
+                const iframe = document.getElementById('modalDriveFrame');
+
+                modal.classList.remove('active');
+                iframe.src = ''; // Limpiamos el iframe para optimizar memoria y frenar carga de Drive
+                document.body.style.overflow = 'auto'; // Restaura el scroll
+            }
+        </script>
+    </body>
+</html>

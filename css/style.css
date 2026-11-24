@@ -1,0 +1,2224 @@
+/* ==========================================================================
+   1. CONFIGURACIÓN GLOBAL Y VARIABLES
+   ========================================================================== */
+:root {
+    /* Paleta: Código Nocturno y Chispa Digital V3 */
+    --clr-bg-deep: #1A1A1A;      /* Negro Profundo */
+    --clr-neon-green: #00FF66;   /* Verde Neón */
+    --clr-cyan-tech: #00FFFF;    /* Cian Turquesa */
+    --clr-magenta-bold: #FF00FF; /* Magenta */
+    --clr-white: #FFFFFF;        /* Blanco */
+
+    --font-main: Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: var(--font-main);
+    background-color: var(--clr-bg-deep);
+    color: var(--clr-white);
+}
+
+/* Resets básicos para que los links no tengan la línea subrayada abajo */
+a {
+    text-decoration: none;
+}
+
+.temporal-color{
+    color: var(--clr-cyan-tech);
+}
+
+/* ==========================================================================
+   UTILIDAD GLOBAL REUTILIZABLE: Marca de Agua (Watermark)
+   ========================================================================== */
+.has-watermark {
+    position: relative;
+    overflow: hidden; /* Vital para que la imagen respete los bordes redondeados */
+}
+
+.has-watermark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+
+    /* Utiliza una variable CSS local que declararemos en cada elemento */
+    background-image: var(--watermark-img);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+    opacity: 0.18; /* Opacidad unificada o ajústala a tu gusto */
+    mix-blend-mode: screen; /* Funde el fondo blanco con el color oscuro limpiamente */
+}
+
+/* Garantiza que todo el contenido interno esté siempre por encima del fondo */
+.has-watermark > * {
+    position: relative;
+    z-index: 2;
+}
+
+/*========== UTILIDAD REUTILIZABLE: Efecto de Pulsación Tipo Botón ==========*/
+@keyframes buttonPulse {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 0 15px rgba(0, 255, 102, 0.12); /* Sombra normal */
+        border-radius: 14px;
+    }
+    50% {
+        transform: translateY(1px) scale(0.99); /* Se hunde un poquito hacia adelante y baja */
+        box-shadow: 0 2px 6px rgba(0, 255, 102, 0.25); /* Sombra más compacta al presionarse */
+        border-radius: 14px;
+    }
+}
+
+.pulse-button-effect {
+    animation: buttonPulse 2.9s infinite ease-in-out;
+}
+
+/*========== ESTILOS DEL MODAL MAESTRO ==========*/
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Estado activo del modal (se activa desde JS) */
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container {
+    background-color: rgba(20, 20, 20, 0.95);
+    border: 1px solid var(--clr-neon-green, #00ff66);
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.2);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 800px;
+    padding: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-container {
+    transform: scale(1);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: transparent;
+    border: none;
+    color: var(--clr-white, #fff);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    color: var(--clr-neon-green, #00ff66);
+}
+
+.modal-header h3 {
+    color: var(--clr-cyan-tech, #00ffff);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.modal-body {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--clr-neon-green);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-external-btn {
+    font-size: 0.85rem;
+    color: var(--clr-neon-green);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: opacity 0.2s ease;
+}
+
+.modal-external-btn:hover {
+    opacity: 0.8;
+}
+
+
+
+/* ==========================================================================
+   2. NAVBAR Y MENÚ DESPLEGABLE (Responsive y con Estados de Color Controlados)
+   ========================================================================== */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--clr-bg-deep);
+    border-bottom: 2px solid rgba(0, 255, 102, 0.2); /* Línea verde sutil de separación */
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    gap: 1rem;
+}
+
+.nav-logo img {
+    /* 🟢 LOGO FLUIDO E INTELIGENTE */
+    width: 12vw;            /* El logo ocupará el 12% del ancho de la pantalla actual */
+    min-width: 120px;       /* En pantallas muy pequeñas (celulares), no se encogerá menos de 120px para que no se rompa */
+    max-width: 140px;       /* En pantallas gigantes de escritorio, no crecerá más de 180px para no comerse el menú */
+    height: auto;           /* La altura se calcula sola para que el logo no se deforme ni se vea estirado */
+    display: block;
+    transition: width 0.2s ease; /* Suaviza el cambio de tamaño si arrastras la ventana del navegador */
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+/* 🟢 SOLUCIÓN ESTRICTA DE COLOR: Controlamos el estado normal y visitado SOLO del menú */
+.nav-link:link, 
+.nav-link:visited {
+    color: var(--clr-white); /* Siempre blancos de base, aunque ya se haya hecho clic */
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    transition: color 0.2s ease;
+}
+
+/* 🟢 HOVER Y ACTIVO: Ahora sí cambian correctamente al VERDE NEÓN */
+.nav-link:hover, 
+.nav-link.active {
+    color: var(--clr-neon-green) !important;
+}
+
+/* --- Estructura del Desplegable (Dropdown) --- */
+.dropdown {
+    position: relative;
+}
+
+.text-small {
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+    color: var(--clr-cyan-tech); /* El cian para el icono de la flecha */
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.8rem); /* 🟢 NUEVO: Separa el submenú de forma elegante hacia abajo */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #222222; /* Fondo gris oscuro para contraste */
+    border: 1px solid var(--clr-cyan-tech); /* Borde tecnológico Cian */
+    border-radius: 4px;
+    padding: 0.5rem 0;
+    min-width: 220px;
+    display: none; /* Oculto por defecto */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    list-style: none;
+}
+
+/* 🟢 PUENTE INVISIBLE: Evita que el submenú se cierre por el espacio de aire creado */
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -1rem; /* Cubre exactamente el vacío superior hacia arriba */
+    left: 0;
+    width: 100%;
+    height: 1rem; /* Misma altura que la separación para no perder el foco */
+}
+
+/* Enlaces internos del desplegable (Proyectos individuales) */
+.dropdown-item:link, 
+.dropdown-item:visited {
+    display: block;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    color: var(--clr-white); /* Texto blanco base */
+    transition: all 0.3s ease;
+}
+
+/* 🟢 HOVER PROYECTOS: Al pasar el mouse por un proyecto cambia a MAGENTA BRILLANTE */
+.dropdown-item:hover {
+    background-color: var(--clr-bg-deep);
+    color: var(--clr-magenta-bold) !important; 
+    padding-left: 1.5rem; /* Efecto dinámico de desplazamiento */
+}
+
+/* Muestra el menú cuando el mouse se posiciona sobre la lista de Proyectos */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* --- Botón de Acción Directa (WhatsApp) --- */
+.btn-nav:link, 
+.btn-nav:visited {
+    color: var(--clr-neon-green);
+    border: 2px solid var(--clr-neon-green);
+    background-color: transparent;
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.btn-nav:hover {
+    background-color: var(--clr-neon-green);
+    color: var(--clr-bg-deep) !important; /* Texto oscuro para contrastar con el fondo verde neón */
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+}
+
+/* Espacio dinámico para que el contenido de la web no se esconda detrás */
+.header-spacer {
+    height: 130px; 
+}
+
+.nav-toggle {
+    display: none; 
+    background: none;
+    border: none;
+    color: var(--clr-neon-green);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1100;
+}
+
+/* Ocultamos el botón móvil en la versión de escritorio */
+#nav-action-mobile {
+    display: none;
+}
+
+
+main {
+    width: 100%; /* Permite que el contenido principal ocupe todo el ancho de la pantalla */
+    background-color: var(--clr-bg-deep); /* Asegura el fondo oscuro base */
+}
+
+
+/* ==========================================================================
+   3. SECCIÓN PRINCIPAL (Hero Section - Escritorio)
+   ========================================================================== */
+.hero-section {
+    width: 100%; /* 🟢 Crucial: Ahora sí puede tocar los bordes de la pantalla */
+    /* min-height: calc(100vh - 79px); Ocupa el resto de la pantalla completa */
+
+    /* 🎯 CAMBIO CLAVE: Volvemos a la pantalla completa limpia para PC.
+       Esto centra perfectamente tu avatar y textos verticalmente en cualquier monitor */
+    min-height: calc(100vh - 79px); 
+    max-height: none; /* Eliminamos este tope en PC para que no aplaste el contenido */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 6rem 2rem; Relleno elegante para dar aire al contenido */
+    padding: 4rem 2rem;
+    
+    /* 🟢 SOLUCIÓN ESTRICTA: Capa oscura + Imagen separadas por coma sin interrupciones */
+    background-image: linear-gradient(rgba(26, 26, 26, 0.45), rgba(26, 26, 26, 0.45)), 
+                      url('../img/Fondo.jpg');
+    background-size: cover;       /* Hace que la imagen llene todo el espacio sin deformarse */
+    background-position: center;  /* Centra el patrón tecnológico en cualquier pantalla */
+    background-repeat: no-repeat; /* Evita que la imagen se duplique como mosaico */
+    background-attachment: scroll; /* Da un efecto parallax genial al hacer scroll */
+
+    position: relative; /* Crucial para anclar las 4 tarjetas esquineras */
+    overflow: hidden;   /* Evita desbordamientos accidentales */
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+    gap: 4rem;
+    /* 3. ESCUDO PROTECTOR: Si la pantalla se vuelve muy pequeña en altura, 
+       impedimos que el contenedor suba e invada el Navbar */
+    margin-top: 0;
+}
+
+/* --- Bloque Izquierdo: Avatar --- */
+.hero-avatar-box {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    padding: 5px;
+    /* Efecto de borde brillante tecnológico circular */
+    background: linear-gradient(135deg, var(--clr-neon-green), var(--clr-cyan-tech));
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.2);
+}
+
+.hero-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: #222222; /* Fondo por si la imagen tarda en cargar */
+    display: block;
+}
+
+/* --- Bloque Derecho: Contenido de Texto --- */
+.hero-content-box {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.hero-welcome {
+    font-size: 1.1rem;
+    color: var(--clr-cyan-tech); /* Cian para llamadas de atención secundarias */
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-name {
+    font-size: 3.5rem;
+    color: var(--clr-white);
+    line-height: 1.1;
+}
+
+.hero-title {
+    font-size: 2rem;
+    color: var(--clr-neon-green); /* Verde neón para resaltar tu profesión */
+    font-weight: bold;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #CCCCCC; /* Blanco grisáceo para mejor legibilidad */
+    max-width: 550px;
+    margin-bottom: 1rem;
+}
+
+/* --- Botones de Acción --- */
+.hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Botón "Ver Proyectos" (Verde Neón Relleno) */
+.btn-hero-primary {
+    background-color: var(--clr-neon-green);
+    color: var(--clr-bg-deep);
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 102, 0.3);
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 255, 102, 0.5);
+}
+
+/* Botón "Contactarme" (Borde Cian) */
+.btn-hero-secondary {
+    background-color: transparent;
+    color: var(--clr-cyan-tech);
+    border: 2px solid var(--clr-cyan-tech);
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-hero-secondary:hover {
+    background-color: rgba(0, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+}
+
+/* --- Enlaces de Contacto Rápido --- */
+.hero-quick-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #AAAAAA;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.contact-item i {
+    color: var(--clr-cyan-tech); /* Iconos resaltados en cian */
+    font-size: 1.1rem;
+}
+
+.contact-item:hover {
+    color: var(--clr-white);
+}
+
+/* ==========================================================================
+   ESTILOS DE LAS TARJETAS DE TÍTULOS (Secuencia Superior en Escritorio)
+   ========================================================================== */
+
+/* Contenedor envolvente flex para alinear los títulos en la parte superior en una sola línea */
+.hero-cards-wrapper {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem; /* Espaciado uniforme entre tarjetas */
+    z-index: 10;
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+
+.hero-card {
+    text-decoration: none;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    flex: 0 1 320px;                   /* Distribuye el espacio de forma equitativa */
+    max-width: 320px;           /* Evita que se estiren demasiado en pantallas ultra anchas */
+}
+
+.hero-card-frame {
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 0.7rem 1.2rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    min-height: 52px;           /* Altura uniforme */
+}
+
+.hero-card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* --- MUESCAS MODULARES DE ESQUINAS --- */
+.muesca-br { border-bottom-right-radius: 12px; }
+.muesca-bl { border-bottom-left-radius: 12px; }
+.muesca-tr { border-top-right-radius: 12px; }
+.muesca-tl { border-top-left-radius: 12px; }
+
+/* --- VARIABLES MODULARES DE COLOR --- */
+.color-cyan {
+    border: 1px solid var(--clr-cyan-tech);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+}
+.color-cyan .hero-card-title { color: var(--clr-cyan-tech); }
+
+.color-green {
+    border: 1px solid var(--clr-neon-green);
+    box-shadow: 0 0 12px rgba(0, 255, 102, 0.2);
+}
+.color-green .hero-card-title { color: var(--clr-neon-green); }
+
+.color-magenta {
+    border: 1px solid var(--clr-magenta-bold);
+    box-shadow: 0 0 12px rgba(255, 0, 255, 0.2);
+}
+.color-magenta .hero-card-title { color: var(--clr-magenta-bold); }
+
+.color-white {
+    border: 1px solid var(--clr-white);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+.color-white .hero-card-title { color: var(--clr-white); }
+
+/* --- HOVER REACTIVO --- */
+.hero-card:hover { transform: translateY(-3px) scale(1.02); }
+.hero-card:hover .color-cyan { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
+.hero-card:hover .color-green { box-shadow: 0 0 20px rgba(0, 255, 102, 0.5); }
+.hero-card:hover .color-magenta { box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+.hero-card:hover .color-white { box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+
+
+/* ==========================================================================
+   EL CONTENEDOR BENTO GRID MAESTRO (Escritorio)
+   ========================================================================== */
+.dashboard-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.columna {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.bento-item {
+    background-color: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(0, 255, 102, 0.15);
+    border-radius: 16px;
+    padding: 2.5rem;
+    height: fit-content; /* Se ajusta a su contenido */
+}
+
+/* Efecto hover interactivo para todo el tablero */
+.bento-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--clr-neon-green);
+    box-shadow: 0 12px 30px rgba(0, 255, 102, 0.05);
+}
+
+/* ==========================================================================
+   CONEXIÓN DIRECTA CON EL MAPA (No cambias esto nunca)
+   ========================================================================== 
+.area-sobre-mi { grid-area: sobre-mi; }
+.area-habilidades { grid-area: habilidades; }
+.area-educacion { grid-area: educacion; }
+.area-proyectos { grid-area: proyectos; }
+.area-certificaciones { grid-area: certificaciones; }
+.area-contacto { grid-area: contacto; }*/
+
+
+/* ==========================================================================
+   4. SECCIÓN SOBRE MÍ (Estilo Tarjeta - Ocupa la columna izquierda)
+   ========================================================================== */
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    color: var(--clr-cyan-tech); /* Tu cian tecnológico */
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2.5rem;
+}
+
+/* Línea decorativa neón debajo del título */
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50px;
+    height: 4px;
+    background-color: var(--clr-neon-green); /* Tu verde neón */
+    border-radius: 2px;
+}
+
+.about-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #CCCCCC;
+    margin-bottom: 1rem;
+}
+
+/* 4. La caja de la frase: ya no necesita margen negativo */
+.about-quote-box {
+    margin-top: 1rem; 
+}
+
+/* --- Caja de la Frase (Estilo Terminal en la parte inferior) --- */
+.quote-terminal {
+    background-color: #141414; /* Más oscuro para simular una consola */
+    border: 1px solid rgba(0, 255, 255, 0.15); /* Borde cian sutil */
+    border-radius: 8px;
+    padding: 2rem 1.5rem;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Puntitos estilo Mac de la terminal */
+.terminal-dots::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #FF5F56;
+    box-shadow: 16px 0 0 #FFBD2E, 32px 0 0 #27C93F;
+}
+
+.quote-text {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--clr-neon-green); /* Resalta tu frase en verde neón */
+    line-height: 1.4;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+
+
+/* ==========================================================================
+   5. SECCIÓN DE HABILIDADES (Skills - Dentro de Bento Grid)
+   ========================================================================== */
+
+/* Contenedor principal de las categorías */
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    width: 100%;
+    margin-top: 0rem;
+}
+
+/* Bloque individual de cada categoría */
+.skills-category {
+    text-align: left;
+}
+
+/* Subtítulos (Lenguajes, Frameworks, etc.) */
+.skills-category h3 {
+    font-size: 1.1rem;
+    color: #CCCCCC;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Envoltura Flexbox para las etiquetas (badges) */
+.badges-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+/* Estilo individual de cada Badge (Cápsulas oscuras premium) */
+/* Estilo individual de cada Badge */
+.skill-badge {
+    position: relative; /* ¡NECESARIO para que el tooltip se posicione respecto al badge! */
+    background-color: var(--clr-bg-deep);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    color: #E0E0E0;
+    padding: 0.8rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+/* --- LÓGICA DEL TOOLTIP (Diseño Estilo HUD/Cyberpunk) --- */
+
+.skill-badge::after {
+    content: attr(data-level); 
+    position: absolute;
+    bottom: 135%; /* Un poco más separado para que no estorbe */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    
+    /* Diseño Estilo Tarjeta Técnica */
+    background: rgba(10, 10, 10, 0.85); /* Fondo oscuro profundo */
+    backdrop-filter: blur(8px);        /* Efecto cristal */
+    color: var(--accent-color);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;               /* Un poco más espaciado */
+    font-weight: 700;
+    white-space: nowrap;
+    
+    /* Borde con brillo */
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.2); 
+    
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100;
+}
+
+/* Triángulo del Tooltip (Ahora más pequeño y estilizado) */
+.skill-badge::before {
+    content: '';
+    position: absolute;
+    bottom: 122%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px 5px 0 5px;
+    border-style: solid;
+    border-color: var(--accent-color) transparent transparent transparent;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+/* Activación con un pequeño efecto "slide-up" */
+.skill-badge:hover::after,
+.skill-badge:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* 🔥 Efecto Hover Interactivo (Brillo Verde Neón al pasar el mouse) */
+.skill-badge:hover {
+    color: var(--accent-color); /* Cambia el texto a tu verde neón */
+    border-color: var(--accent-color); /* El borde se ilumina */
+    background-color: rgba(0, 255, 102, 0.05); /* Pequeño destello de fondo */
+    transform: translateY(-5px); /* Efecto flotante idéntico al de tus botones */
+    box-shadow: 0 4px 12px rgba(0, 255, 102, 0.15);
+}
+
+/* Si tienes FontAwesome, esto le da un toque sutil de color a los iconos */
+.skill-badge i {
+    font-size: 1.23rem;
+    transition: color 0.25s ease;
+}
+
+.skill-badge:hover i {
+    color: var(--accent-color);
+    transform: scale(1.15); /* Esto hace que el icono crezca un 15% solo cuando pasas el mouse */
+}
+
+/* Clase para el escaneo automático (idéntico al hover pero controlado por JS) */
+.skill-badge.active-scan {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    background-color: rgba(0, 255, 102, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--accent-color);
+}
+
+/* Hace que el icono crezca durante el escaneo automático */
+.skill-badge.active-scan i {
+    color: var(--accent-color);
+    transform: scale(1.15);
+}
+
+
+/* ==========================================================================
+   6. ESTILOS INTERNOS DE PROYECTOS (Estructura Semántica con article)
+   ========================================================================== */
+.projects-header {
+    margin-bottom: 0.5rem;
+}
+
+/* 💎 CLAVE 1: align-items: start evita que una tarjeta obligue a la de al lado a estirarse */
+.projects-subgrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1.5rem;
+    width: 100%;
+    align-items: start; 
+}
+
+.project-card {
+    background: none;
+    padding: 0;
+    border: none;
+    height: 100%;
+}
+
+/* El enlace interno maneja el flujo de manera elástica y segura */
+.project-card-link {
+    background-color: #141414;
+    border: 1px solid rgba(0, 255, 102, 0.1);
+    border-radius: 14px;
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Permite crecimiento natural hacia abajo */
+    gap: 1.2rem; /* Separación base inicial uniforme */
+    text-decoration: none; 
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
+    overflow: hidden; /* 🚀 Vital para que la imagen de fondo respete los bordes redondeados */
+}
+
+/* Parte superior: Icono y Textos */
+.project-card-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+}
+
+.project-icon-box {
+    width: 55px;
+    height: 55px;
+    min-width: 55px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background-color: rgba(30, 30, 30, 0.8);
+    border: 1px solid transparent;
+    transition: transform 0.3s ease;
+}
+
+.card-cyan i { color: var(--clr-cyan-tech); }
+.card-cyan { border-color: rgba(0, 255, 255, 0.2); }
+
+.card-green i { color: var(--clr-neon-green); }
+.card-green { border-color: rgba(0, 255, 102, 0.2); }
+
+.card-magenta i { color: var(--clr-magenta-bold); }
+.card-magenta { border-color: rgba(255, 0, 255, 0.2); }
+
+.project-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+}
+
+.project-info h3 {
+    font-size: 1.3rem;
+    color: var(--clr-white);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.project-info p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #AAAAAA;
+}
+
+/* Parte Inferior: Contenedor elástico */
+.project-card-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: auto; /* Empuja el bloque inferior abajo si hay espacio de sobra */
+}
+
+/* 💎 CLAVE 2: Flujo nativo y seguro. No tapa texto jamás. */
+.project-tech-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    
+    /* Estado colapsado físico real */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-bottom: 0; 
+    
+    /* Animación suave de apertura física */
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.25s ease, 
+                padding-bottom 0.35s ease;
+}
+
+.tech-tag {
+    background-color: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--clr-cyan-tech);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Botón interactivo "Ver Proyecto" */
+.project-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--clr-white);
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: color 0.3s ease, margin-top 0.3s ease;
+    white-space: nowrap;
+    padding-top: 0.5rem;
+}
+
+.project-btn i {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+/* 🔥 INTERACCIONES REACTIVAS HOVER */
+.project-card-link:hover {
+    transform: translateY(-5px);
+    border-color: var(--clr-neon-green);
+    box-shadow: 0 10px 25px rgba(0, 255, 102, 0.08);
+}
+
+/* 💎 CLAVE 3: Cuando se abre, empuja físicamente manteniendo distancias perfectas */
+.project-card-link:hover .project-tech-badges {
+    max-height: 120px; /* Espacio de sobra para las etiquetas */
+    opacity: 1;
+    padding-bottom: 1rem; /* Separación controlada y limpia con el botón de abajo */
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Línea sutil de separación superior opcional */
+    padding-top: 1rem; /* Da aire entre el párrafo largo y las tecnologías */
+}
+
+.project-card-link:hover h3 { color: var(--clr-neon-green); }
+.project-card-link:hover .project-icon-box { transform: scale(1.05); }
+.project-card-link:hover .project-btn { color: var(--clr-neon-green); }
+.project-card-link:hover .project-btn i { transform: translateX(4px); }
+
+/* ==========================================================================
+   VARIANTES DE PROYECTOS (Imágenes de fondo dedicadas en el CSS)
+   ========================================================================== */
+.project-card-link.bg-ecommerce {
+    --watermark-img: url('../img/LogoNexoForce.png'); /* Reemplaza con tu ruta real */
+}
+
+/* ==========================================================================
+   7. SECCIÓN DE EDUCACIÓN (Arquitectura Escalable por Niveles Académicos)
+   ========================================================================== */
+
+.education-timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding-left: 0.5rem;
+    margin-top: 1rem;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Línea vertical central de Git Branch */
+.education-timeline::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    width: 2px;
+    height: calc(100% - 10px);
+    background: linear-gradient(to bottom, var(--clr-cyan-tech), rgba(0, 255, 102, 0.2));
+}
+
+/* Grupo de Nivel Académico (Agrupa títulos bajo un mismo nivel) */
+.timeline-level-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+    width: 100%;
+}
+
+/* Etiqueta de Nivel Académico Única por Grupo */
+.timeline-level-label {
+    font-size: 0.95rem; /* 🚀 Ajusta aquí el tamaño un poquito más grande si lo deseas */
+    font-weight: 700;
+    color: var(--clr-cyan-tech);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: -0.5rem;
+    
+    /* 🚀 SOLUCIÓN PARA MOVERLO A LA IZQUIERDA */
+    padding-left: 0;          /* Limpiamos el padding anterior */
+    margin-left: -0.3rem;     /* Lo desplaza hacia la izquierda acercándolo a la línea principal */
+}
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    gap: 1.2rem;
+    width: 100%;
+    align-items: flex-start;
+    cursor: pointer;
+}
+
+/* Nodos interactivos de la línea de tiempo */
+.timeline-marker {
+    position: relative;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background-color: #141414;
+    border: 2px solid var(--clr-cyan-tech);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.3s ease;
+    margin-top: 0.2rem;
+}
+
+.timeline-marker i {
+    font-size: 0.75rem;
+    color: var(--clr-cyan-tech);
+}
+
+/* Tarjeta contenedora con borde resplandeciente permanente */
+.timeline-content {
+    background-color: rgba(20, 20, 20, 0.92);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 255, 102, 0.4);
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.12);
+    border-radius: 12px;
+    padding: 1.8rem;
+    
+    /* 🚀 AISLADO Y FORZADO: Ancho idéntico para todas las tarjetas de esta sección */
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+
+    overflow: hidden; /* Vital para que la imagen respete los bordes redondeados */
+
+}
+
+
+
+/* --- EFECTO DE BRILLO DIAGONAL (HAZ DE LUZ) PARA LAS TARJETAS --- */
+@keyframes diagonalCardShine {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(120deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(120deg);
+    }
+}
+
+/* Pseudo-elemento ::before libre para el haz de luz diagonal a 120° */
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        70deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.08) 50%,
+        transparent 65%
+    );
+    pointer-events: none;
+    z-index: 2; /* Se ubica por encima de la marca de agua pero con transparencia sutil */
+    animation: diagonalCardShine 2s infinite ease-in-out;
+}
+
+
+
+/* ==========================================================================
+   VARIANTES DE INSTITUCIONES (Sección Educación)
+   ========================================================================== */
+.timeline-content.bg-tho {
+    --watermark-img: url('../img/LogoFondoTHO.png');
+}
+
+.timeline-content.bg-tes {
+    --watermark-img: url('../img/LogoFondoTESDarkBlueForce.png');
+}
+
+.timeline-content.bg-Mgtr {
+    --watermark-img: url('../img/LogoFondoTESRedForce.png');
+}
+
+/* --- INSIGNIAS ABSOLUTAS INTERACTIVAS --- */
+
+.timeline-badge-honor {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.6rem;
+    /* Gradiente con el brillo integrado en el centro */
+    background: linear-gradient(135deg, #FFD700 60%, rgba(255, 255, 255, 0.7) 100%, #FFA500 0%);
+    color: #1A1A1A;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 3;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeline-badge-honor:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
+.timeline-badge-eude {
+    position: absolute;
+    bottom: 1.4rem;
+    right: 1.6rem;
+    background: linear-gradient(135deg, #AA151B 0%, #F1BF00 50%, #AA151B 100%);
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 0 10px rgba(170, 21, 27, 0.5);
+    text-transform: uppercase;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    cursor: pointer;
+    z-index: 3;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeline-badge-eude:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(170, 21, 27, 0.8);
+}
+
+.timeline-date {
+    font-size: 0.8rem;
+    color: var(--clr-neon-green);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.timeline-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    padding-right: 9.5rem;
+}
+
+.timeline-degree {
+    display: block;
+    color: var(--clr-white);
+}
+
+.timeline-institution {
+    display: block;
+    color: var(--clr-magenta-bold);
+    font-weight: 900;
+    font-size: 1rem;
+    margin-top: 0.2rem;
+}
+
+.timeline-description {
+    font-size: 0.9rem;
+    color: #AAAAAA;
+    line-height: 1.4;
+    margin-top: 0.2rem;
+}
+
+.timeline-status {
+    margin-top: 0.3rem;
+    display: flex;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    background-color: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-completed {
+    color: var(--clr-neon-green);
+    border-color: rgba(0, 255, 102, 0.2);
+}
+.status-completed .status-dot {
+    background-color: var(--clr-neon-green);
+    box-shadow: 0 0 6px var(--clr-neon-green);
+}
+
+.status-current {
+    color: var(--clr-cyan-tech);
+    border-color: rgba(0, 255, 255, 0.2);
+}
+.status-current .status-dot {
+    background-color: var(--clr-cyan-tech);
+    box-shadow: 0 0 6px var(--clr-cyan-tech);
+}
+
+.status-upcoming {
+    color: var(--clr-cyan-tech);
+    border-color: rgba(0, 255, 255, 0.2);
+}
+.status-upcoming .status-dot {
+    background-color: var(--clr-cyan-tech);
+    box-shadow: 0 0 6px var(--clr-cyan-tech);
+}
+
+/* EFECTOS HOVER */
+.timeline-item:hover .timeline-marker {
+    border-color: var(--clr-neon-green);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+}
+
+.timeline-item:hover .timeline-content {
+    border-color: var(--clr-neon-green);
+    box-shadow: 0 6px 18px rgba(0, 255, 102, 0.15);
+    transform: translateX(4px);
+}
+
+/* ==========================================================================
+   8. SECCIÓN DE CERTIFICACIONES (Tarjetas con Fondo de Imagen Dinámico)
+   ========================================================================== */
+
+.certs-subgrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1.5rem;
+    width: 100%;
+    align-items: stretch; 
+    
+    /* 🎯 SOLUCIÓN AL SCROLL: Altura fija calculada para mostrar 2 filas completas y asomar la 3ra */
+    max-height: 590px; 
+    overflow-y: auto;   /* Activa el scroll vertical */
+
+    /* 🎯 TRUCO MAESTRO: Mueve la barra de scroll al lado izquierdo */
+    direction: rtl; 
+    /*
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.2rem;  
+    padding-right: 0;*/
+
+    /* El Padding aquí es el colchón para que la carta no se corte al subir */
+    padding: 0.5rem 0 0.5rem 1.2rem;
+}
+
+/* 🎨 Personalización de la barra de scroll (Scrollbar futurista) */
+.certs-subgrid::-webkit-scrollbar {
+    width: 13px; /* Barra delgada y elegante */
+}
+
+.certs-subgrid::-webkit-scrollbar-track {
+    /*background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;*/
+    background: transparent;
+}
+
+.certs-subgrid::-webkit-scrollbar-thumb {
+    background: var(--clr-cyan-tech); 
+    /* 
+    border-radius: 10px;
+    transition: background 0.3s ease; */
+
+    border: 4px solid transparent; 
+    background-clip: padding-box; 
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.certs-subgrid::-webkit-scrollbar-thumb:hover {
+    background: var(--clr-neon-green); /* Cambia a verde neón al hacerle hover */
+}
+
+.cert-card {
+    /* 🎯 TRUCO MAESTRO (Parte 2): Restaura el orden y alineación del contenido normal de izquierda a derecha */
+    direction: ltr;
+
+    position: relative;
+    background-color: #141414;
+    border: 1px solid rgba(0, 255, 255, 0.15); 
+    border-radius: 14px;
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    align-items: center;     
+    min-height: 190px; 
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1;
+}
+
+.cert-overlay {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20, 20, 20, 0.88); 
+    transition: background-color 0.3s ease;
+    z-index: -1;
+}
+
+.cert-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    text-align: center;      
+    gap: 0.6rem;
+    height: 100%;
+    width: 100%;
+}
+
+.cert-name {
+    font-size: 1.15rem;
+    color: var(--clr-magenta-bold); /* Mantiene tu magenta actual */
+    font-weight: 700;
+    line-height: 1.3;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.cert-description {
+    font-size: 0.9rem;
+    color: #AAAAAA;
+    line-height: 1.4;
+    flex-grow: 1; 
+}
+
+.cert-id {
+    font-size: 0.8rem;
+    color: var(--clr-neon-green); 
+    font-family: monospace; 
+    margin-top: auto; 
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    padding-top: 0.5rem;
+    width: 80%;             
+    letter-spacing: 0.5px;
+}
+
+/* 🔥 EFECTOS HOVER */
+.cert-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--clr-neon-green);
+    box-shadow: 0 8px 24px rgba(0, 255, 102, 0.1);
+}
+
+.cert-card:hover .cert-overlay {
+    background-color: rgba(20, 20, 20, 0.78); 
+}
+
+.cert-card:hover .cert-name {
+    color: var(--clr-neon-green); 
+}
+
+/* ==========================================================================
+   📂 DECLARACIÓN DE IMÁGENES DE FONDO (Escalable)
+   Aquí irás enlazando la ruta de tus capturas de los certificados
+   ========================================================================== */
+.cert-1 { background-image: url('../img/cert/FundamentosEstadísticos.PNG'); }
+.cert-2 { background-image: url('../img/cert/PowerBI_basico.PNG'); }
+.cert-3 { background-image: url('../img/cert/ProgramaciónR.PNG'); }
+.cert-4 { background-image: url('../img/cert/MicrosoftAccessBásico.PNG'); }
+.cert-5 { background-image: url('../img/cert/IntroducciónMundoGoogleCloud.PNG'); }
+.cert-6 { background-image: url('../img/cert/IntroducciónPythonCienciaDatos.PNG'); }
+.cert-7 { background-image: url('../img/cert/PowerBI_Intermedio-Avanzado.PNG'); }
+.cert-8 { background-image: url('../img/cert/SQLPrincipiantes.PNG'); }
+.cert-9 { background-image: url('../img/cert/BigDataFundamentals.PNG'); }
+.cert-10 { background-image: url('../img/cert/BusinessAnalyticsBigData.PNG'); }
+.cert-11 { background-image: url('../img/cert/PowerQuery_PowerPivot.PNG'); }
+
+/* ==========================================================================
+   9. SECCIÓN DE CONTACTO (Contactarme por Gmail)
+   ========================================================================== */
+
+.area-contacto {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empuja los iconos al fondo */
+    min-height: 500px; /* Asegura altura mínima para el bento grid */
+}
+
+.contacto-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Ajustado para mejor flujo */
+    margin-top: 1.5rem;
+}
+
+.contacto-form input {
+    width: 100%;
+    padding: 1rem;
+    background-color: #141414;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--clr-white);
+    font-family: var(--font-main);
+    transition: all 0.3s ease;
+}
+
+/* Regla específica para el TEXTAREA con las limitaciones aplicadas */
+.contacto-form textarea {
+    width: 100%;
+    min-width: 100%;       /* Bloquea expansión horizontal */
+    max-width: 100%;       
+    
+    min-height: 169px;     /* Altura inicial */
+    max-height: 250px;     /* Límite máximo vertical */
+    
+    padding: 1rem;
+    background-color: #141414;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--clr-white);
+    font-family: var(--font-main);
+    
+    resize: vertical;      /* Solo permite estirar hacia abajo */
+    overflow-y: auto;      /* Activa scroll si el texto excede los 250px */
+    transition: border 0.3s ease;
+}
+
+.contacto-form input:focus, 
+.contacto-form textarea:focus {
+    outline: none;
+    border-color: var(--clr-cyan-tech);
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.2);
+}
+
+/* Estilo del botón consistente con tu btn-hero-primary */
+.btn-contacto-submit {
+    background-color: var(--clr-cyan-tech); /* Fondo transparente inicial */
+    color: var(--clr-bg-deep);   /* Texto Cian */
+    border: 2px solid var(--clr-cyan-tech); /* Borde Cian */
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    margin-top: 0.5rem;
+}
+
+.btn-contacto-submit:hover {
+    background-color: var(--clr-neon-green); /* Fondo Verde Neón en hover */
+    color: var(--clr-bg-deep);               /* Texto oscuro para contraste */
+    border-color: var(--clr-neon-green);     /* Borde Verde Neón */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 255, 102, 0.3);
+}
+
+/* Estilo para el contenedor de cada icono */
+.contacto-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contacto-social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;       /* Tamaño de la caja circular */
+    height: 50px;      /* Tamaño de la caja circular */
+    border-radius: 50%; /* Forma circular */
+    background-color: #1a1a1a; /* Fondo oscuro dentro del círculo */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+    color: #AAAAAA;    /* Color inicial del icono */
+    font-size: 1.2rem; /* Tamaño del icono */
+    transition: all 0.3s ease;
+}
+
+/* Efecto Hover: Se ilumina al pasar el mouse */
+.contacto-social-links a:hover {
+    color: var(--clr-neon-green);       /* Icono verde */
+    border-color: var(--clr-neon-green); /* Borde verde */
+    background-color: rgba(0, 255, 102, 0.1); /* Fondo muy sutil verde */
+    transform: translateY(-5px);        /* Pequeño salto */
+    box-shadow: 0 4px 10px rgba(0, 255, 102, 0.2);
+}
+
+
+/* ==========================================================================
+   10. FOOTER - ESTILO PANEL TÉCNICO
+   ========================================================================== */
+.main-footer {
+    background-color: #141414;
+    border-top: 2px solid rgba(0, 255, 102, 0.2);
+    padding: 3rem 2rem 1.5rem 2rem;
+    color: #A0A0A0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around; 
+    align-items: flex-start; /* Alinea los bloques arriba para mayor orden */
+    flex-wrap: wrap;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-block {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center;
+}
+
+/* Identidad: Mantenemos el contenido agrupado a la izquierda pero dentro del bloque */
+.footer-identity {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.footer-text { text-align: left; max-width: 300px; } 
+
+.footer-avatar-wrapper {
+    width: 80px; height: 80px;
+    border-radius: 50%; padding: 3px;
+    background: linear-gradient(135deg, var(--clr-neon-green), var(--clr-cyan-tech));
+    flex-shrink: 0;
+}
+
+.footer-avatar { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+.footer-text h3 {
+    color: var(--clr-cyan-tech); /* Cian */
+    font-size: 1.6rem;           /* Un poco más grande para destacar */
+    margin-bottom: 0.5rem;
+}
+
+.footer-title { 
+    color: var(--clr-magenta-bold); /* Magenta */
+    font-weight: 600; 
+    margin-bottom: 0.8rem; 
+    font-size: 1.1rem;           /* Tamaño aumentado */
+}
+
+.footer-quote { 
+    font-style: italic; 
+    color: #888; 
+    font-size: 1rem;          /* Tamaño aumentado */
+}
+
+/* Links */
+.footer-links { display: flex; flex-direction: column; gap: 0.8rem; list-style: none; }
+.footer-links a { color: #A0A0A0; display: flex; align-items: center; gap: 0.8rem; text-decoration: none; }
+.footer-links a:hover { color: var(--clr-neon-green); transform: translateX(5px); }
+
+/* Subfooter */
+.subfooter {
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 2rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* --- 3. Logo en la esquina inferior derecha (Tamaño aumentado) --- */
+.footer-bottom-logo {
+    position: absolute;
+    right: 2rem;                 /* Separado del borde derecho */
+    bottom: 0rem;                /* Separado del borde inferior */
+    width: 80px;                 /* Aumentado de 40px a 60px */
+    opacity: 0.7;                /* Un poco más visible */
+    transition: opacity 0.3s;
+}
+
+/* ==========================================================================
+   📱 ADAPTACIÓN TOTAL PARA CELULARES (Menú Dinámico Sin Colisiones)
+   ========================================================================== */
+
+@media (max-width: 1040px) {
+
+    /* ----------------------------------------------------------------------
+       == SECCIÓN 2: NAVBAR (Menú Dinámico Móvil) ==
+       ---------------------------------------------------------------------- */
+    .nav-toggle {
+        display: block;
+    }
+
+    /* Ocultamos por completo el contenedor de escritorio en pantallas chicas */
+    .nav-actions {
+        display: none !important;
+    }
+
+    /* Hacemos visible el botón clonado dentro del menú móvil */
+    #nav-action-mobile {
+        display: block;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-top: 0.5rem;
+    }
+
+    .navbar {
+        padding: 1rem 1.5rem;
+        position: relative;
+    }
+
+    /* 🟢 CAJA ÚNICA: El menú ahora calcula su altura dinámicamente (max-height) */
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #151515; /* Fondo uniforme en todo el bloque */
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem 0;
+        gap: 1.5rem;
+        border-bottom: 2px solid rgba(0, 255, 102, 0.2);
+        
+        /* Sistema de colapso vertical fluido */
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden; /* Evita que los botones se salgan mientras está cerrado */
+        pointer-events: none;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* 🟢 CLASE ACTIVA: Al abrirse, permite que la caja crezca libremente según su contenido */
+    .nav-menu.nav-menu_visible {
+        max-height: 100vh; /* Permite expandirse lo necesario */
+        opacity: 1;
+        overflow-y: auto; /* Si la pantalla es muy enana, permite hacer scroll interno */
+        pointer-events: auto;
+    }
+
+    .nav-link:link, .nav-link:visited {
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .dropdown {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dropdown-toggle {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* 🟢 FLUJO NATURAL: Al abrir el submenú, empujará al botón de WhatsApp hacia abajo solo */
+    .dropdown-menu {
+        position: static; 
+        transform: none;
+        background-color: #222222;
+        margin: 0.5rem auto 0 auto;
+        width: 90%;          /* 🟢 Cambia a porcentaje para que sea más natural */
+        max-width: 320px;    /* 🟢 Evita que en pantallas medianas (tablets) el submenú se estire demasiado hacia los lados */
+        box-shadow: none;
+        border: 1px dashed var(--clr-cyan-tech);
+    }
+
+    .dropdown-item:link, .dropdown-item:visited {
+        text-align: center;
+        padding: 0.7rem;
+    }
+
+    .btn-nav:link, .btn-nav:visited {
+        padding: 0.7rem 2rem;
+        font-size: 1rem;
+    }
+
+    .header-spacer {
+        height: 79px; 
+    }
+
+    /* ----------------------------------------------------------------------
+       == SECCIÓN 3: HERO SECTION (Inicio) ==
+       ---------------------------------------------------------------------- */
+    .hero-section {
+        min-height: auto !important;
+        max-height: none !important;
+        padding: 2.5rem 1rem 3.5rem 1rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    /* Contenedor de las 3 tarjetas en fila horizontal arriba */
+    .hero-cards-wrapper {
+        position: static;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: clamp(0.35rem, 1.5vw, 1rem);
+        margin-top: 1.5rem;
+        padding: 0 0.25rem;
+        box-sizing: border-box;
+        height: auto;
+    }
+
+    /* Cada tarjeta reparte el espacio equitativamente */
+    .hero-card {
+        position: static;
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: none;
+        width: auto;
+        display: flex;
+    }
+
+    .hero-card-frame {
+        padding: clamp(0.35rem, 1.2vw, 0.6rem) clamp(0.25rem, 1vw, 0.8rem);
+        min-height: clamp(38px, 8vw, 50px);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .hero-card-title {
+        font-size: clamp(0.48rem, 1.8vw, 0.8rem);
+        letter-spacing: 0.2px;
+        line-height: 1.15;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* El contenedor principal de texto y avatar fluye de manera natural y ordenada abajo */
+    .hero-container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        width: 100%;
+        margin-top: 0;
+    }
+    
+
+    /* --- SISTEMA DE ENMARCADO FLUIDO PARA MÓVILES --- */
+    /* El avatar-box se convierte en el contenedor de referencia visual */
+    .hero-avatar-box {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Padding generoso vertical para albergar las tarjetas sin que choquen con la foto */
+        padding: 2rem 0 0.5rem 0; 
+    }
+
+    .avatar-wrapper {
+        width: clamp(150px, 40vw, 200px); /* Tamaño fluido inteligente según el ancho de la pantalla */
+        height: clamp(150px, 40vw, 200px);
+        margin: 0 auto;
+        z-index: 2; /* Asegura que la foto esté nítida y al frente */
+    }
+
+    .hero-content-box {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-name {
+        font-size: clamp(2rem, 6vw, 2.8rem);
+    }
+
+    .hero-title {
+        font-size: clamp(1.2rem, 4vw, 1.6rem);
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.8rem;
+    }
+
+    .btn-hero-primary, .btn-hero-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-quick-contact {
+        justify-content: center;
+        gap: 1.2rem;
+        width: 100%;
+    }
+    
+    .contact-item span {
+        font-size: 0.9rem;
+    }
+
+
+    /* ----------------------------------------------------------------------
+       == ESTRUCTURA GLOBAL: CONTENEDOR MAESTRO (Móvil) ==
+       ---------------------------------------------------------------------- */
+    .dashboard-grid {
+        display: flex;
+        flex-direction: column;
+    }
+    .columna { display: contents; } /* Ignora el div contenedor en móvil */
+    
+    #sobre-mi        { order: 1; }
+    #habilidades     { order: 2; }
+    #proyectos       { order: 3; }
+    #educacion       { order: 4; }
+    #certificaciones { order: 5; }
+    #contacto        { order: 6; }
+
+    /* Ajuste de relleno interno de las tarjetas en móviles para ganar espacio */
+    .bento-item {
+        padding: 1.5rem; 
+        text-align: center; /* Centrado opcional para mejor estética en celulares */
+    }
+
+
+    /* ----------------------------------------------------------------------
+       == SECCIÓN 4: SOBRE MÍ (Responsive) ==
+       ---------------------------------------------------------------------- */
+    .section-title::after {
+        left: 50%;
+        transform: translateX(-50%); /* Centra la línea verde debajo del título */
+    }
+
+    .quote-text {
+        font-size: 1.1rem; /* Reducimos sutilmente la frase para que no se corte */
+    }
+
+
+    /* ----------------------------------------------------------------------
+       == SECCIÓN 5: HABILIDADES (Responsive Móvil) ==
+       ---------------------------------------------------------------------- */
+    .skills-category {
+        text-align: center; /* Centramos los subtítulos en celular */
+    }
+
+    .badges-grid {
+        justify-content: center; /* Centra el conjunto de badges de forma fluida */
+    }
+
+    /* Aquí agregamos la adaptación de los badges para pantallas pequeñas */
+    .skill-badge {
+        min-width: 70px;
+        padding: 0.6rem;
+        font-size: 0.75rem;
+    }
+
+    .skill-badge i {
+        font-size: 1.5rem;
+    }
+
+
+    /* ----------------------------------------------------------------------
+       == SECCIÓN 6: OPTIMIZACIÓN DE PROYECTOS (Móvil Semántico) ==
+       ---------------------------------------------------------------------- */
+    .projects-subgrid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .project-card-link {
+        padding: 1.5rem;
+        gap: 1.2rem;
+    }
+
+    /* En celulares se mantienen abiertas fijas en el flujo sin transiciones */
+    .project-tech-badges {
+        max-height: none !important;
+        opacity: 1 !important;
+        overflow: visible !important;
+        padding-bottom: 1rem !important;
+        padding-top: 1rem !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .project-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.6rem 0;
+        border: 1px solid rgba(0, 255, 102, 0.2);
+        border-radius: 6px;
+        color: var(--clr-neon-green);
+    }
+
+    .project-card-link:hover {
+        transform: translateY(-4px);
+    }
+
+
+    /* ----------------------------------------------------------------------
+       == SECCIÓN 7: EDUCACIÓN (Responsive Móvil / Tablets) ==
+       ---------------------------------------------------------------------- */
+    .education-timeline {
+        padding-left: 0.4rem; 
+        align-items: flex-start;
+    }
+
+    /* Línea vertical ajustada a la izquierda */
+    .education-timeline::before {
+        display: block !important;
+        left: 2px; 
+    }
+
+    .timeline-level-group {
+        gap: 1.2rem;
+    }
+
+    .timeline-level-label {
+        font-size: clamp(0.90rem, 2.5vw, 0.85rem); /* 🚀 Tamaño responsivo y un poco más grande */
+        padding-left: 0;
+        margin-left: 0.5rem; /* 🚀 Ajuste hacia la izquierda en móvil/tablet */
+    }
+
+    .timeline-item {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .timeline-marker {
+        display: flex !important;
+        left: 0; 
+        margin-top: 0.2rem;
+        width: 24px;
+        height: 24px;
+    }
+    
+    .timeline-marker i {
+        font-size: 0.65rem;
+    }
+
+    /* 🚀 SOLUCIÓN CLAVE PARA MÓVIL: Tarjeta flexible que reordena las insignias y evita choques */
+    .timeline-content {
+        text-align: left;
+        padding: 1.2rem;
+        width: 100%;
+        box-sizing: border-box;
+        
+        /* Convertimos el contenedor en un flex column ordenado para evitar absolute overlaps en pantallas chicas */
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    /* Hacemos que las insignias dejen de ser absolutamente intrusivas en móviles estrechos 
+       y pasen a formar parte ordenada del flujo superior de la tarjeta */
+    .timeline-badge-honor,
+    .timeline-badge-eude {
+        position: static !important; /* Desactiva el absolute en móvil para que no tapen la fecha */
+        align-self: center;      /* Se alinean ordenadamente arriba */
+        text-align: center !important; /* Centra el texto dentro del badge */
+        margin-top: 0.4rem;           /* 🚀 Separación superior / respecto a elementos previos */
+        margin-bottom: 0.8rem;        /* 🚀 Espacio de separación claro con la fecha y el contenido de abajo */
+        font-size: 0.65rem;
+        padding: 0.3rem 0.8rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .timeline-badge-eude {
+        font-size: 0.45rem;
+    }
+
+    /* 🚀 TIPOGRAFÍAS 100% FLUIDAS CON CLAMP (Adiós a textos gigantes en móviles) */
+    .timeline-date {
+        font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+        justify-content: flex-start;
+        order: 2; /* Asegura que la fecha y insignias queden arriba de forma limpia */
+    }
+
+    .timeline-title {
+        font-size: clamp(1rem, 4vw, 1.2rem) !important; /* Se reduce fluidamente según el ancho de la pantalla */
+        line-height: 1.2;
+        padding-right: 0 !important; /* Eliminamos el padding fijo de escritorio que ya no hace falta */
+        order: 2;
+    }
+
+    .timeline-degree {
+        font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    }
+
+    .timeline-institution {
+        font-size: clamp(0.85rem, 3vw, 1rem);
+    }
+
+    .timeline-description {
+        font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+        order: 3;
+    }
+
+    .timeline-status {
+        justify-content: flex-start;
+        order: 4;
+        margin-top: 0.5rem;
+    }
+
+
+    /* ----------------------------------------------------------------------
+   == SECCIÓN 8: CERTIFICACIONES (Responsive Móvil) ==
+   ---------------------------------------------------------------------- */
+    .certs-subgrid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        max-height: 550px; /* Ajuste de altura para que en móvil también corte la tarjeta inferior por la mitad */
+        
+        /* En mobile, solo dejamos un margen vertical para no perder ancho de pantalla */
+        padding: 0.5rem 0;
+    }
+
+    .certs-subgrid::-webkit-scrollbar {
+        display: none;
+        width: 0px;
+        background: transparent;
+    }
+    /*
+    .cert-card {
+        min-height: auto;
+        padding: 1.4rem;
+    }*/
+
+    /* ----------------------------------------------------------------------
+   == SECCIÓN 9: CONTACTO (Responsive Móvil) ==
+   ---------------------------------------------------------------------- */
+    .area-contacto {
+        min-height: auto; /* En móvil dejamos que crezca según contenido */
+        padding: 1.5rem;
+    }
+    
+    .contacto-social-links {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+    }
+
+
+    /* ----------------------------------------------------------------------
+   == SECCIÓN 10: FOOTER (Responsive Móvil) ==
+   ---------------------------------------------------------------------- */
+   /* 1. Centramos el contenedor y permitimos que los bloques se apilen verticalmente */
+    .footer-container { 
+        text-align: center; 
+        justify-content: center; 
+        gap: 2rem; 
+    }
+
+    /* 2. Ajustamos la identidad para que el avatar quede arriba del texto */
+    .footer-identity { 
+        flex-direction: column; 
+        text-align: center; 
+        gap: 0.8rem; 
+    }
+
+    /* 3. Aseguramos que los textos y los links se centren correctamente */
+    .footer-text { text-align: center; }
+    .footer-links { align-items: center; }
+
+    /* 4. El logo ya no flota a la derecha, se pone en el flujo normal (abajo) */
+    .footer-bottom-logo { 
+        position: static; 
+        margin-top: 1.5rem; 
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto; 
+    }
+}
